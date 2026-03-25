@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
   return {
-    base: '/clarix/',
+    base: '/ARIA/clarix/'
 
     plugins: [react(), tailwindcss()],
 
