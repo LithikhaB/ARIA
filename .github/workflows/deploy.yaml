@@ -1,30 +1,66 @@
 name: Deploy to GitHub Pages
+
 on:
   push:
     branches: ["shirley"]
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install
-      - run: npm run build
+
+      # Build clarix
+      - name: Build clarix
+        run: |
+          cd clarix
+          npm install
+          npm run build
+
+      # Build novasuite
+      - name: Build novasuite
+        run: |
+          cd novasuite
+          npm install
+          npm run build
+
+      # Build orbitalhq
+      - name: Build orbitalhq
+        run: |
+          cd orbitalhq
+          npm install
+          npm run build
+
+      # Combine all builds into one dist folder
+      - name: Prepare final build
+        run: |
+          mkdir dist
+          cp -r clarix/dist dist/clarix
+          cp -r novasuite/dist dist/novasuite
+          cp -r orbitalhq/dist dist/orbitalhq
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
