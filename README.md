@@ -3,6 +3,7 @@
 > **Competitive intelligence, automated. No manual research. No hallucinated insights. Just math.**
 
 ---
+## Team Members: Tamojita, Lithikha B, Rithwik, Shirley
 
 ## What is ARIA?
 
