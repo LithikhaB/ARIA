@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaSuite | The Next Generation CRM</title>
+    <style>
+        /* Base Design System - Inspired by HubSpot & Linear */
+        :root {
+            /* Snapshot 1 Defaults (Neutral/Feature) */
+            --bg: #ffffff;
+            --text: #1a1f36;
+            --text-muted: #4f566b;
+            --primary: #0061ff;
+            --primary-hover: #0052d9;
+            --accent: #f7f9fc;
+            --border: #e3e8ee;
+            --card-bg: #ffffff;
+            --hero-grad: linear-gradient(180deg, #f7f9fc 0%, #ffffff 100%);
+            --font-main: 'Inter', -apple-system, system-ui, sans-serif;
+            --transition-speed: 0.6s;
+        }
+
+        /* Snapshot 2 Overrides (Urgent/Outcome) */
+        [data-snapshot="1"] {
+            --bg: #fcfcfd;
+            --primary: #f97316; /* Urgent Orange */
+            --primary-hover: #ea580c;
+            --text: #0f172a;
+            --accent: #fff7ed;
+            --hero-grad: linear-gradient(180deg, #fff7ed 0%, #fcfcfd 100%);
+        }
+
+        /* Snapshot 3 Overrides (Aggressive/Identity) */
+        [data-snapshot="2"] {
+            --bg: #000000;
+            --text: #ffffff;
+            --text-muted: #888888;
+            --primary: #ffffff; /* High contrast White */
+            --primary-hover: #e5e5e5;
+            --accent: #111111;
+            --border: #222222;
+            --card-bg: #0a0a0a;
+            --hero-grad: radial-gradient(circle at top, #1a1a1a 0%, #000000 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        nav {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+            transition: border-color var(--transition-speed) ease, background var(--transition-speed) ease;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: background var(--transition-speed) ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--bg);
+            border: 1px solid var(--primary);
+        }
+
+        [data-snapshot="2"] .btn-primary {
+            color: #000; /* Black text on white button for aggressive theme */
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 8rem 0 6rem;
+            background: var(--hero-grad);
+            text-align: center;
+            transition: background var(--transition-speed) ease;
+        }
+
+        .social-proof-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--accent);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: transform 0.4s ease;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            transition: color var(--transition-speed) ease;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 6rem 0;
+        }
+
+        .pricing-card {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 3rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            text-align: center;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .price-val {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin: 1rem 0;
+        }
+
+        .price-val span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Blog Section (Snapshot 3 only) */
+        #blog-section {
+            padding: 6rem 0;
+            border-top: 1px solid var(--border);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        #blog-section.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .blog-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .blog-img {
+            height: 160px;
+            background: var(--accent);
+        }
+
+        .blog-info {
+            padding: 1.5rem;
+        }
+
+        .blog-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Trigger Button */
+        .trigger-wrap {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .trigger-btn {
+            background: #000;
+            color: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        [data-snapshot="2"] .trigger-btn {
+            background: #fff;
+            color: #000;
+        }
+
+        .trigger-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .trigger-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            animation: none;
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 97, 255, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 97, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 97, 255, 0); }
+        }
+
+        /* Tone specific styling */
+        .aggressive-text {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+    </style>
+</head>
+<body data-snapshot="0">
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                NovaSuite
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Product</a></li>
+                <li><a href="#">Solutions</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+            <div>
+                <button class="btn btn-primary" id="nav-cta">Start free trial</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div id="social-proof" class="social-proof-badge">Used by 800+ teams</div>
+            <h1 id="headline">All-in-one CRM for growing teams</h1>
+            <p id="subheadline">14 features. One platform. No chaos.</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;" id="main-cta">Start free trial</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="pricing">
+        <div class="container">
+            <div class="pricing-card">
+                <h3 id="plan-name">Pro Plan</h3>
+                <div class="price-val" id="price-display">$29<span>/seat/mo</span></div>
+                <p id="plan-desc" style="color: var(--text-muted); margin-bottom: 2rem;">Everything you need to manage your pipeline effectively.</p>
+                <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog-section">
+        <div class="container">
+            <h2 style="font-size: 2rem; letter-spacing: -0.04em;">Revenue Intelligence Blog</h2>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-img"></div>
+                    <div class="blog-info">
+                        <h4>Why spreadsheets kill your conversion rate</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Stop tracking, start closing.</p>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-img"></div>
+                    <div class="blog-info">
+                        <h4>The psychology of the hard close</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Master the final 5 minutes.</p>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-img"></div>
+                    <div class="blog-info">
+                        <h4>Automating your entire sales floor</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">AI doesn't take lunch breaks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 4rem 0; text-align: center; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted);">
+        &copy; 2026 NovaSuite Technologies. Built for winners.
+    </footer>
+
+    <div class="trigger-wrap">
+        <button class="trigger-btn pulse" id="trigger-update">
+            👉 Trigger Competitor Update
+        </button>
+    </div>
+
+    <script>
+        const snapshots = [
+            {
+                headline: "All-in-one CRM for growing teams",
+                subheadline: "14 features. One platform. No chaos.",
+                cta: "Start free trial",
+                price: "$29",
+                socialProof: "Used by 800+ teams",
+                tone: "neutral",
+                desc: "Everything you need to manage your pipeline effectively."
+            },
+            {
+                headline: "Close deals 2x faster — or don't pay",
+                subheadline: "Your pipeline deserves a weapon, not a spreadsheet.",
+                cta: "Book a strategy call",
+                price: "$49",
+                socialProof: "Teams using NovaSuite close 47% more deals in 90 days",
+                tone: "urgent",
+                desc: "The high-performance engine for teams that refuse to lose."
+            },
+            {
+                headline: "The CRM that closes for you",
+                subheadline: "Built for revenue teams who are done with tools that just track.",
+                cta: "See it in action →",
+                price: "$49",
+                socialProof: "STOP TRACKING. START CLOSING.",
+                tone: "aggressive",
+                desc: "If you aren't using NovaSuite, you're leaving money on the table."
+            }
+        ];
+
+        let currentIndex = 0;
+        const body = document.body;
+        const triggerBtn = document.getElementById('trigger-update');
+        
+        const headlineEl = document.getElementById('headline');
+        const subheadlineEl = document.getElementById('subheadline');
+        const mainCtaEl = document.getElementById('main-cta');
+        const navCtaEl = document.getElementById('nav-cta');
+        const priceEl = document.getElementById('price-display');
+        const socialProofEl = document.getElementById('social-proof');
+        const planDescEl = document.getElementById('plan-desc');
+        const blogSection = document.getElementById('blog-section');
+
+        function updateSnapshot(index) {
+            const data = snapshots[index];
+            
+            // Update Body Attribute for CSS
+            body.setAttribute('data-snapshot', index);
+
+            // Animate content change
+            [headlineEl, subheadlineEl, mainCtaEl, priceEl, socialProofEl, planDescEl].forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(10px)';
+            });
+
+            setTimeout(() => {
+                headlineEl.textContent = data.headline;
+                subheadlineEl.textContent = data.subheadline;
+                mainCtaEl.textContent = data.cta;
+                navCtaEl.textContent = data.cta;
+                priceEl.innerHTML = `${data.price}<span>/seat/mo</span>`;
+                socialProofEl.textContent = data.socialProof;
+                planDescEl.textContent = data.desc;
+
+                // Handle Tone Specifics
+                if (data.tone === 'aggressive') {
+                    socialProofEl.classList.add('aggressive-text');
+                    blogSection.classList.add('visible');
+                } else {
+                    socialProofEl.classList.remove('aggressive-text');
+                }
+
+                // Fade back in
+                [headlineEl, subheadlineEl, mainCtaEl, priceEl, socialProofEl, planDescEl].forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                    el.style.transition = 'all 0.4s ease';
+                });
+            }, 300);
+
+            // Handle button state
+            if (index === snapshots.length - 1) {
+                triggerBtn.innerHTML = "✅ Evolution Complete";
+                triggerBtn.classList.remove('pulse');
+                triggerBtn.disabled = true;
+            }
+        }
+
+        triggerBtn.addEventListener('click', () => {
+            if (currentIndex < snapshots.length - 1) {
+                currentIndex++;
+                updateSnapshot(currentIndex);
+            }
+        });
+
+        // Initialize
+        updateSnapshot(0);
+    </script>
+</body>
+</html>

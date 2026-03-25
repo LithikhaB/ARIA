@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrbitalHQ | Enterprise Revenue Operations</title>
+    <style>
+        /* --- ENTERPRISE DESIGN SYSTEM --- */
+        :root {
+            --primary: #1a1f2e; /* Deep Navy */
+            --accent: #3b82f6; /* Professional Blue */
+            --bg: #ffffff;
+            --bg-muted: #f9fafb;
+            --text: #111827;
+            --text-muted: #4b5563;
+            --border: #e5e7eb;
+            --transition: opacity 0.6s ease, transform 0.6s ease;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text);
+            background-color: var(--bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.625rem 1.25rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #000000;
+        }
+
+        .btn-outline {
+            border-color: var(--border);
+            color: var(--text);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-muted);
+        }
+
+        .btn-trigger {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #111827;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 2000;
+            font-size: 0.875rem;
+            border: none;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 10rem 0 6rem;
+            text-align: center;
+        }
+
+        .hero-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* --- SOCIAL PROOF --- */
+        .social-proof {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-muted);
+        }
+
+        .social-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0.4;
+            filter: grayscale(1);
+        }
+
+        .social-grid span {
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- PRICING --- */
+        .pricing {
+            padding: 8rem 0;
+            background: white;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .card {
+            padding: 3rem 2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card.featured {
+            background: var(--bg-muted);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .price span {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+            flex-grow: 1;
+        }
+
+        .features li {
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .features li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* --- BLOG PREVIEW --- */
+        .blog {
+            padding: 8rem 0;
+            background: var(--bg-muted);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+
+        .blog-item h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-item p {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- ANIMATIONS --- */
+        .fade-content {
+            transition: var(--transition);
+        }
+
+        .hidden {
+            opacity: 0;
+            transform: translateY(4px);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container" style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
+            <div class="logo">OrbitalHQ</div>
+            <ul class="nav-links">
+                <li><a href="#">Platform</a></li>
+                <li><a href="#">Governance</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Security</a></li>
+            </ul>
+            <a href="#" class="btn btn-primary">Request Access</a>
+        </div>
+    </nav>
+
+    <main id="content-area" class="fade-content">
+        <section class="hero">
+            <div class="container">
+                <span class="hero-label">Revenue Infrastructure</span>
+                <h1 id="hero-title">Enterprise infrastructure for serious revenue operations</h1>
+                <p id="hero-desc">OrbitalHQ provides the foundational layer for global revenue teams to maintain data integrity and operational excellence at scale.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="#" class="btn btn-primary" id="cta-primary">Get Started</a>
+                    <a href="#" class="btn btn-outline">View Documentation</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-proof">
+            <div class="container">
+                <div class="social-grid">
+                    <span>MORGAN CHASE</span>
+                    <span>STANDARD CHARTERED</span>
+                    <span>ORACLE</span>
+                    <span>SAP</span>
+                    <span>ACCENTURE</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing">
+            <div class="container">
+                <div class="pricing-header">
+                    <h2 style="font-size: 2rem; margin-bottom: 1rem;">Predictable Enterprise Pricing</h2>
+                    <p style="color: var(--text-muted);">Scalable infrastructure designed for the modern enterprise.</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="card">
+                        <h3>Standard</h3>
+                        <div class="price">$149<span>/seat</span></div>
+                        <p>Essential controls for regional teams.</p>
+                        <ul class="features">
+                            <li>Core Revenue Tracking</li>
+                            <li>Standard Reporting</li>
+                            <li>Email Support</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline">Select Plan</a>
+                    </div>
+                    <div class="card featured">
+                        <h3>Enterprise</h3>
+                        <div class="price" id="enterprise-price">$299<span>/seat</span></div>
+                        <p id="enterprise-desc">The industry standard for global revenue operations.</p>
+                        <ul class="features">
+                            <li>Advanced Data Governance</li>
+                            <li>Custom API Access</li>
+                            <li>24/7 Priority Support</li>
+                            <li>SSO & Audit Logs</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Request Access</a>
+                    </div>
+                    <div class="card">
+                        <h3>Global</h3>
+                        <div class="price">Custom</div>
+                        <p>Bespoke infrastructure for multi-national conglomerates.</p>
+                        <ul class="features">
+                            <li>White-glove Implementation</li>
+                            <li>Dedicated Infrastructure</li>
+                            <li>Custom Legal Terms</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog">
+            <div class="container">
+                <div class="blog-grid">
+                    <div class="blog-item">
+                        <h4>Quarterly Revenue Governance Report</h4>
+                        <p>An analysis of data integrity trends across the Fortune 500 for Q1 2026.</p>
+                        <a href="#" style="color: var(--accent); font-size: 0.875rem; font-weight: 600; text-decoration: none;">Read Report →</a>
+                    </div>
+                    <div class="blog-item">
+                        <h4>Scaling Operations in Regulated Markets</h4>
+                        <p>Best practices for maintaining compliance while accelerating revenue growth.</p>
+                        <a href="#" style="color: var(--accent); font-size: 0.875rem; font-weight: 600; text-decoration: none;">Read Article →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 OrbitalHQ Infrastructure. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <button class="btn-trigger" id="trigger-btn">
+        👉 Trigger Competitor Update
+    </button>
+
+    <script>
+        const snapshots = [
+            {
+                title: "Enterprise infrastructure for serious revenue operations",
+                desc: "OrbitalHQ provides the foundational layer for global revenue teams to maintain data integrity and operational excellence at scale.",
+                price: "$299",
+                priceDesc: "The industry standard for global revenue operations.",
+                cta: "Get Started",
+                accent: "#3b82f6"
+            },
+            {
+                title: "Where enterprise revenue teams operate at scale",
+                desc: "Empower your global organization with a premium platform designed for high-velocity revenue operations and strategic alignment.",
+                price: "$349",
+                priceDesc: "Premium infrastructure for high-growth enterprise teams.",
+                cta: "Request Access",
+                accent: "#2563eb"
+            }
+        ];
+
+        let currentIdx = 0;
+        const btn = document.getElementById('trigger-btn');
+        const content = document.getElementById('content-area');
+
+        btn.addEventListener('click', () => {
+            currentIdx = (currentIdx + 1) % snapshots.length;
+            const data = snapshots[currentIdx];
+
+            // Subtle transition
+            content.classList.add('hidden');
+
+            setTimeout(() => {
+                document.getElementById('hero-title').innerText = data.title;
+                document.getElementById('hero-desc').innerText = data.desc;
+                document.getElementById('enterprise-price').innerHTML = `${data.price}<span>/seat</span>`;
+                document.getElementById('enterprise-desc').innerText = data.priceDesc;
+                document.getElementById('cta-primary').innerText = data.cta;
+                
+                // Subtle accent change
+                document.documentElement.style.setProperty('--accent', data.accent);
+
+                content.classList.remove('hidden');
+            }, 600);
+        });
+    </script>
+</body>
+</html>
