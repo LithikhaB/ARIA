@@ -126,6 +126,8 @@ Every messaging theme across your competitive set gets scored and ranked.
 | Scoring engine | Python (NumPy / Pandas) |
 | Visualization | Matplotlib / Plotly | 
 | Storage | SQLite | 
+| FrontEnd | Next.js |
+| Backend | FastAPI |
 
 ---
 
