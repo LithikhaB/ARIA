@@ -152,12 +152,15 @@ async def crawl_competitors(competitor_urls: List[Dict[str, str]]) -> List[Dict[
                 try:
                     html = await crawl_url(url)
                     competitor_result[f"{page_type}_html"] = html
+                    competitor_result[f"{page_type}_url"] = url   # ← thread URL through for bridge.py
                 except Exception as e:
                     logger.error(f"Failed to crawl {page_type} for {competitor['name']}: {str(e)}")
                     competitor_result[f"{page_type}_html"] = ""
+                    competitor_result[f"{page_type}_url"] = ""    # ← keep key present even on failure
             else:
                 logger.warning(f"No {page_type} URL provided for {competitor['name']}")
                 competitor_result[f"{page_type}_html"] = ""
+                competitor_result[f"{page_type}_url"] = ""        # ← always present
         
         results.append(competitor_result)
     

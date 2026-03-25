@@ -1,5 +1,11 @@
+# Track A
 playwright
 beautifulsoup4
 sentence-transformers
 torch
 lxml
+
+# Track B
+httpx
+pydantic
+vaderSentiment

@@ -9,7 +9,7 @@ import hashlib
 import json
 import logging
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Optional
 
 # Configure logging
@@ -38,12 +38,19 @@ def init_db() -> None:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 competitor_name TEXT NOT NULL,
                 page_type TEXT NOT NULL,
+                page_url TEXT NOT NULL DEFAULT '',   -- Track B's extractor requires a URL
                 raw_html TEXT NOT NULL,
                 crawl_timestamp TEXT NOT NULL,
                 sha256_hash TEXT NOT NULL,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
         """)
+
+        # Add page_url column to existing DBs that predate this change
+        try:
+            cursor.execute("ALTER TABLE snapshots ADD COLUMN page_url TEXT NOT NULL DEFAULT ''")
+        except Exception:
+            pass  # Column already exists — safe to ignore
         
         # Create indexes for better query performance
         cursor.execute("""
@@ -108,7 +115,7 @@ def compute_sha256(content: str) -> str:
     return hashlib.sha256(content.encode('utf-8')).hexdigest()
 
 
-def save_snapshot(competitor_name: str, page_type: str, raw_html: str) -> Dict:
+def save_snapshot(competitor_name: str, page_type: str, raw_html: str, page_url: str = "") -> Dict:
     """
     Save a snapshot of crawled content to the database.
     
@@ -130,16 +137,16 @@ def save_snapshot(competitor_name: str, page_type: str, raw_html: str) -> Dict:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         
-        # Compute hash and timestamp
+        # Compute hash and timestamp (UTC-aware so Track B's ISO 8601 validator accepts it)
         html_hash = compute_sha256(raw_html)
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()  # e.g. 2026-03-25T17:00:00+00:00
         
         # Insert snapshot
         cursor.execute("""
             INSERT INTO snapshots 
-            (competitor_name, page_type, raw_html, crawl_timestamp, sha256_hash)
-            VALUES (?, ?, ?, ?, ?)
-        """, (competitor_name, page_type, raw_html, timestamp, html_hash))
+            (competitor_name, page_type, page_url, raw_html, crawl_timestamp, sha256_hash)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (competitor_name, page_type, page_url, raw_html, timestamp, html_hash))
         
         snapshot_id = cursor.lastrowid
         conn.commit()
@@ -149,6 +156,7 @@ def save_snapshot(competitor_name: str, page_type: str, raw_html: str) -> Dict:
             "id": snapshot_id,
             "competitor_name": competitor_name,
             "page_type": page_type,
+            "page_url": page_url,
             "raw_html": raw_html,
             "crawl_timestamp": timestamp,
             "sha256_hash": html_hash,
