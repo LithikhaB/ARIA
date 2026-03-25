@@ -116,8 +116,8 @@ Every messaging theme across your competitive set gets scored and ranked.
 
 ## Tech Stack
 
-| Layer | Technology | Cost |
-|---|---|---|
+| Layer | Technology | 
+|---|---|
 | Crawling | Playwright / Selenium |
 | Diffing | `difflib` (exact) + `sentence-transformers` (semantic) | 
 | Signal extraction | **Ollama + Mistral 7B** (local inference, structured JSON output) |
