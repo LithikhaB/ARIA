@@ -134,5 +134,3 @@ It's rule-based, fast, requires no API, and performs well on short-form review t
 MIT
 
 ---
-
-*Built for teams who want competitive intelligence they can actually defend in a meeting.*
