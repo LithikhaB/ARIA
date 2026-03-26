@@ -83,36 +83,6 @@ Score range: `−1` (hated) to `+1` (loved).
 > *"Where should YOU play?"*
 
 Every messaging theme across your competitive set gets scored and ranked.
-
-
-
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────┐
-│                    ARIA Pipeline                    │
-├──────────────┬──────────────┬───────────────────────┤
-│   Crawler    │    Differ    │   Signal Extractor    │
-│  (Selenium / │  (exact diff │  (Ollama + Mistral — │
-│  Playwright) │  + MiniLM)   │  local, text→JSON)   │
-└──────┬───────┴──────┬───────┴───────────┬───────────┘
-       │              │                   │
-       └──────────────▼───────────────────┘
-                ┌─────────────┐
-                │  Scoring    │
-                │   Engine    │
-                │  (pure math,│
-                │  no LLM)    │
-                └──────┬──────┘
-                       │
-                ┌──────▼──────┐
-                │  Whitespace │
-                │     Map     │
-                │  + Reports  │
-                └─────────────┘
-```
-
 ---
 
 ## Tech Stack
